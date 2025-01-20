@@ -20,11 +20,14 @@ namespace DziennikUcznia.Repositories
             Grade grade = new Grade() {Student=st1,Type=Grade.GradeType.TEST };
             _context.Students.Add(st1);
             _context.SaveChanges();
-
-            foreach(Student student in _context.Students)
-            {
-                
-            }
+        }
+        public void CreateDb()
+        {
+            _context.Database.Migrate();
+            Student st1 = new Student() { FirstName = "Darek", LastName = "Larski" };
+            Grade grade = new Grade() { Student = st1, Type = Grade.GradeType.TEST };
+            _context.Students.Add(st1);
+            _context.SaveChanges();
         }
         public async Task AddStudent(Student student)
         {

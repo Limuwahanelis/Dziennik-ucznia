@@ -64,12 +64,6 @@ namespace DziennikUcznia.Controllers
         }
         public  IActionResult ShowAddGrade(int? id)
         {
-            List<SelectListItem> list = new List<SelectListItem>();
-            for(int i=1;i<=6;i++)
-            {
-                list.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
-            }
-            ViewData["list"] = list;
             return View("AddGrade");
         }
         [HttpPost]
