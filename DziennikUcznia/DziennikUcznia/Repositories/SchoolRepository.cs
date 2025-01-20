@@ -17,7 +17,7 @@ namespace DziennikUcznia.Repositories
         {
             _context.Database.EnsureCreated();
             Student st1 = new Student() {FirstName ="Darek", LastName="Larski" };
-            Grade grade = new Grade() {Student=st1,Type=Grade.GradeType.TEST };
+            //Grade grade = new Grade() {Student=st1,Type=Grade.GradeType.TEST };
             _context.Students.Add(st1);
             _context.SaveChanges();
         }
