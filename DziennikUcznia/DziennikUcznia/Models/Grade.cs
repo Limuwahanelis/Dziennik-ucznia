@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DziennikUcznia.Models
 {
@@ -10,6 +11,7 @@ namespace DziennikUcznia.Models
         }
         public int Id { get; set; }
         public Student Student { get; set; }
+        [Range(1,6)]
         public int Value { get; set; }
         // public int SubjectId { get; set; }
         // public int TeacherId { get; set; }

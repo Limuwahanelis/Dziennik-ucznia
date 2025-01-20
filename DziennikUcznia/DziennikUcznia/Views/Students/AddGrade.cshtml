@@ -1,5 +1,4 @@
 ﻿@model DziennikUcznia.Models.Grade
-@using DziennikUcznia.HtmlHelpersExtensions
 
 @{
     ViewData["Title"] = "Edit";
@@ -17,7 +16,8 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Value" class="control-label"></label>
-                <input asp-for="Value" class="form-control" />
+                <br />
+                @Html.DropDownListFor(m => m.Value, Enumerable.Range(1, 6).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
                 <span asp-validation-for="Value" class="text-danger"></span>
             </div>
             <div class="form-group">
