@@ -1,4 +1,5 @@
 ﻿@model DziennikUcznia.Models.Grade
+@using DziennikUcznia.HtmlHelpersExtensions
 
 @{
     ViewData["Title"] = "Edit";
@@ -21,9 +22,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+                <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<Grade.GradeType>()"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
+            </div> 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
