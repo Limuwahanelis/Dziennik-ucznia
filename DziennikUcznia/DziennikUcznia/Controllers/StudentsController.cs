@@ -9,6 +9,7 @@ using DziennikUcznia.Data;
 using DziennikUcznia.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using DziennikUcznia.Repositories;
+using DziennikUcznia.Models.View_Models;
 
 namespace DziennikUcznia.Controllers
 {
@@ -43,8 +44,16 @@ namespace DziennikUcznia.Controllers
         }
 
         // GET: Students/Create
-        public IActionResult Create()
+        public async Task <IActionResult> Create()
         {
+            List<Class> classes = await _repository.GetClasses();
+            List<SelectListItem> selectList = new List<SelectListItem>();
+            for(int i=0;i<classes.Count; i++)
+            {
+                selectList.Add(new SelectListItem(classes[i].Name, classes[i].Id.ToString()));
+            }
+
+            ViewBag.Classes = selectList;
             return View();
         }
 
@@ -53,13 +62,17 @@ namespace DziennikUcznia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName")] Student student)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,ClassId")] CreateStudentModel student)
         {
             if (ModelState.IsValid)
             {
-                await _repository.AddStudent(student);
+                Student st = new Student(student);
+                Class? studentClass = await _repository.GetClassById(student.ClassId.Value);
+                st.Class = studentClass;
+                await _repository.AddStudent(st);
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(student);
         }
         public  IActionResult ShowAddGrade(int? id)

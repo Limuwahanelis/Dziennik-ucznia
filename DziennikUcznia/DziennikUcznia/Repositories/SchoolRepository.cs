@@ -29,10 +29,32 @@ namespace DziennikUcznia.Repositories
             _context.Students.Add(st1);
             _context.SaveChanges();
         }
+        public async Task<Class?> GetClassById(int id)
+        {
+            return await _context.Classes.FindAsync(id);
+        }
         public async Task AddStudent(Student student)
         {
             _context.Add(student);
             await _context.SaveChangesAsync();
+        }
+        public async Task<List<Class>> GetClassesByIds(List<int> ids)
+        {
+            List<Class> classes = new List<Class>();
+            foreach (int id in ids) 
+            {
+                classes.Add(await _context.Classes.FindAsync(id));
+            }
+            return classes;
+        }
+        public async Task AddTeacher(Teacher teacher)
+        {
+            _context.Teachers.Add(teacher);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<List<Teacher>> GetTeachers()
+        {
+            return await _context.Teachers.ToListAsync();
         }
         public async Task<List<Student>> GetStudents()
         {
@@ -65,7 +87,10 @@ namespace DziennikUcznia.Repositories
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
         }
-
+        public async Task<List<Class>> GetClasses()
+        {
+            return await _context.Classes.ToListAsync();
+        }
         public bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.Id == id);
