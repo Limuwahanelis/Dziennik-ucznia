@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DziennikUcznia.Migrations
 {
-    [DbContext(typeof(SchoolDbContext))]
+    [DbContext(typeof(SchoolDbContext_MySQL))]
     partial class SchoolDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace DziennikUcznia.Migrations
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("ClassTeacher");
+                    b.ToTable("ClassTeacher", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Class", b =>
@@ -46,7 +46,7 @@ namespace DziennikUcznia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Grade", b =>
@@ -73,7 +73,7 @@ namespace DziennikUcznia.Migrations
 
                     b.HasIndex("TeacherId1");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Student", b =>
@@ -95,7 +95,7 @@ namespace DziennikUcznia.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Teacher", b =>
@@ -112,7 +112,7 @@ namespace DziennikUcznia.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("ClassTeacher", b =>

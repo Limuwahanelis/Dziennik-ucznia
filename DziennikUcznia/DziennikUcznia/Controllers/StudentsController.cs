@@ -16,14 +16,20 @@ namespace DziennikUcznia.Controllers
     public class StudentsController : Controller
     {
         SchoolRepository _repository;
-        public StudentsController(SchoolRepository repository)
+        StudentsRepository _studentsRepository;
+        GradesRepository _gradesRepository; 
+        ClassesRepository _classesRepository;
+        public StudentsController(SchoolRepository repository, StudentsRepository studentsRepository, GradesRepository gradesRepository, ClassesRepository classesRepository)
         {
             _repository = repository;
+            _studentsRepository = studentsRepository;
+            _gradesRepository = gradesRepository;
+            _classesRepository = classesRepository;
         }
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetStudents());
+            return View(await _studentsRepository.GetStudents());
         }
 
         // GET: Students/Details/5
@@ -34,7 +40,7 @@ namespace DziennikUcznia.Controllers
                 return NotFound();
             }
 
-            var student = await _repository.GetStudentWithGradesById(id.Value);
+            var student = await _studentsRepository.GetStudentWithGradesById(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -46,7 +52,7 @@ namespace DziennikUcznia.Controllers
         // GET: Students/Create
         public async Task <IActionResult> Create()
         {
-            List<Class> classes = await _repository.GetClasses();
+            List<Class> classes = await _classesRepository.GetClasses();
             List<SelectListItem> selectList = new List<SelectListItem>();
             for(int i=0;i<classes.Count; i++)
             {
@@ -67,9 +73,9 @@ namespace DziennikUcznia.Controllers
             if (ModelState.IsValid)
             {
                 Student st = new Student(student);
-                Class? studentClass = await _repository.GetClassById(student.ClassId.Value);
+                Class? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
                 st.Class = studentClass;
-                await _repository.AddStudent(st);
+                await _studentsRepository.AddStudent(st);
                 return RedirectToAction(nameof(Index));
             }
             
@@ -87,7 +93,7 @@ namespace DziennikUcznia.Controllers
                 return NotFound();
             }
 
-            var student =await _repository.GetStudentById(id.Value);
+            var student =await _studentsRepository.GetStudentById(id.Value);
 
             if (student == null)
             {
@@ -97,7 +103,7 @@ namespace DziennikUcznia.Controllers
             ModelState.Remove("Student");
             if (ModelState.IsValid)
             {
-                await _repository.AddGrade(grade);
+                await _gradesRepository.AddGrade(grade);
             }
             return View(grade);
         }
@@ -109,7 +115,7 @@ namespace DziennikUcznia.Controllers
                 return NotFound();
             }
 
-            var student = await _repository.GetStudentById(id.Value);
+            var student = await _studentsRepository.GetStudentById(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -133,11 +139,11 @@ namespace DziennikUcznia.Controllers
             {
                 try
                 {
-                    await _repository.UpdateStudent(student);
+                    await _studentsRepository.UpdateStudent(student);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_repository.StudentExists(student.Id))
+                    if (!_studentsRepository.StudentExists(student.Id))
                     {
                         return NotFound();
                     }
@@ -159,7 +165,7 @@ namespace DziennikUcznia.Controllers
                 return NotFound();
             }
 
-            var student = await _repository.GetStudentById(id.Value);
+            var student = await _studentsRepository.GetStudentById(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -173,10 +179,10 @@ namespace DziennikUcznia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _repository.GetStudentById(id);
+            var student = await _studentsRepository.GetStudentById(id);
             if (student != null)
             {
-                await _repository.RemoveStudent(student);
+                await _studentsRepository.RemoveStudent(student);
             }
             return RedirectToAction(nameof(Index));
         }

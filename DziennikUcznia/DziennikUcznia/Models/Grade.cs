@@ -10,7 +10,7 @@ namespace DziennikUcznia.Models
             HOMEWORK,TEST,ACTIVITY,EGZAM
         }
         public int Id { get; set; }
-        public Student Teacher { get; set; } = null!;
+        public Teacher Teacher { get; set; } = null!;
         public Student Student { get; set; } = null!;
         [Range(1,6)]
         public int Value { get; set; }

@@ -10,14 +10,18 @@ namespace DziennikUcznia.Controllers
     public class TeachersController : Controller
     {
         private readonly SchoolRepository _schoolRepository;
-        public TeachersController(SchoolRepository schoolRepository)
+        private TeachersRepository _teachersRepository;
+        private ClassesRepository _classesRepository;
+        public TeachersController(SchoolRepository schoolRepository, TeachersRepository teachersRepository, ClassesRepository classesRepository)
         {
             _schoolRepository = schoolRepository;
+            _teachersRepository = teachersRepository;
+            _classesRepository = classesRepository;
         }
         // GET: TeachersController
         public async Task<ActionResult> Index()
         {
-            return View(await _schoolRepository.GetTeachers());
+            return View(await _teachersRepository.GetTeachers());
         }
 
         // GET: TeachersController/Details/5
@@ -29,7 +33,7 @@ namespace DziennikUcznia.Controllers
         // GET: TeachersController/Create
         public async Task<ActionResult> Create()
         {
-            List<Class> classes = await _schoolRepository.GetClasses();
+            List<Class> classes = await _classesRepository.GetClasses();
             List<SelectListItem> selectList = new List<SelectListItem>();
             for (int i = 0; i < classes.Count; i++)
             {
@@ -50,9 +54,9 @@ namespace DziennikUcznia.Controllers
             {
                 Teacher t = new Teacher(teacher);
 
-                List<Class>? teacherClasses = await _schoolRepository.GetClassesByIds(teacher.ClassesId);
+                List<Class>? teacherClasses = await _classesRepository.GetClassesByIds(teacher.ClassesId);
                 t.Classes = teacherClasses;
-                await _schoolRepository.AddTeacher(t);
+                await _teachersRepository.AddTeacher(t);
                 return RedirectToAction(nameof(Index));
             }
 

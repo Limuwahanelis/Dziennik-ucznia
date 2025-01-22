@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DziennikUcznia.Migrations
 {
-    [DbContext(typeof(SchoolDbContext))]
+    [DbContext(typeof(SchoolDbContext_MySQL))]
     [Migration("20250120141855_Initial_create")]
     partial class Initial_create
     {
