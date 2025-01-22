@@ -1,4 +1,5 @@
 using DziennikUcznia.Data;
+using DziennikUcznia.Identity;
 using DziennikUcznia.Repositories;
 using DziennikUcznia.Services;
 using Microsoft.AspNetCore.Identity;
@@ -10,10 +11,16 @@ var connectionString = builder.Configuration.GetConnectionString("SchoolDbContex
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<TestService>();
-builder.Services.AddDbContext<SchoolDbContext_MySQL>();
+builder.Services.AddDbContext<SchoolDBContext,SchoolDbContext_SQLServer>();
 
-builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<SchoolDbContext_MySQL>();
+//builder.Services.AddDbContext<SchoolDBContext, SchoolDbContext_MySQL>();
+
+
+builder.Services.AddDefaultIdentity<AppUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+    }
+).AddEntityFrameworkStores<SchoolDBContext>().AddDefaultUI();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<SchoolRepository>();

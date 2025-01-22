@@ -6,9 +6,9 @@ namespace DziennikUcznia.Repositories
 {
     public class SchoolRepository
     {
-        private readonly SchoolDbContext_MySQL _context;
+        private readonly SchoolDBContext _context;
 
-        public SchoolRepository(SchoolDbContext_MySQL context)
+        public SchoolRepository(SchoolDBContext context)
         {
             _context = context;
         }
