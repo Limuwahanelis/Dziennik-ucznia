@@ -1,4 +1,5 @@
 ﻿using DziennikUcznia.Data;
+using DziennikUcznia.Interfaces;
 using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,8 +7,8 @@ namespace DziennikUcznia.Repositories
 {
     public class ClassesRepository
     {
-        private SchoolDbContext_MySQL _context;
-        public ClassesRepository(SchoolDbContext_MySQL context)
+        private SchoolDBContext _context;
+        public ClassesRepository(SchoolDBContext context)
         {
             _context = context;
         }

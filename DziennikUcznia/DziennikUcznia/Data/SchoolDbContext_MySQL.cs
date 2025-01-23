@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
+using DziennikUcznia.Interfaces;
 
 namespace DziennikUcznia.Data
 {
-    public class SchoolDbContext_MySQL: IdentityDbContext
+    public class SchoolDbContext_MySQL : SchoolDBContext
     {
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Grade> Grades { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
-        public DbSet<Class> Classes { get; set; }
 
         public SchoolDbContext_MySQL(DbContextOptions<SchoolDbContext_MySQL> options) : base()
         {
