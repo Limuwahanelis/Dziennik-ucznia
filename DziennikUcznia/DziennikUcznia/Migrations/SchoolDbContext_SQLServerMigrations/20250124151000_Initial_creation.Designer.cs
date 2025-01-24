@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 {
     [DbContext(typeof(SchoolDbContext_SQLServer))]
-    [Migration("20250123125019_Initial_creation")]
+    [Migration("20250124151000_Initial_creation")]
     partial class Initial_creation
     {
         /// <inheritdoc />
@@ -125,6 +125,12 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
             modelBuilder.Entity("DziennikUcznia.Models.Grade", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
@@ -138,6 +144,8 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.HasIndex("TeacherId");
 
@@ -344,7 +352,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 {
                     b.HasOne("DziennikUcznia.Models.Student", "Student")
                         .WithMany("Grades")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

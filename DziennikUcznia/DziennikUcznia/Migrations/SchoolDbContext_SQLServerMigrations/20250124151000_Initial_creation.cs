@@ -237,8 +237,10 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 name: "Grades",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TeacherId = table.Column<int>(type: "int", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<int>(type: "int", nullable: false),
                     Grade_type = table.Column<int>(type: "int", nullable: false)
                 },
@@ -246,8 +248,8 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 {
                     table.PrimaryKey("PK_Grades", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Grades_Students_Id",
-                        column: x => x.Id,
+                        name: "FK_Grades_Students_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -302,6 +304,11 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 name: "IX_ClassTeacher_TeachersId",
                 table: "ClassTeacher",
                 column: "TeachersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grades_StudentId",
+                table: "Grades",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grades_TeacherId",

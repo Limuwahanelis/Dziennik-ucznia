@@ -8,6 +8,10 @@ namespace DziennikUcznia.Data
 {
     public class SchoolDbContext_SQLServer:SchoolDBContext
     {
+        public SchoolDbContext_SQLServer(DbContextOptions<SchoolDbContext_SQLServer> options) : base()
+        {
+
+        }
         public SchoolDbContext_SQLServer(DbContextOptions<SchoolDBContext> options) : base(options)
         {
 
@@ -25,11 +29,11 @@ namespace DziennikUcznia.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Student>()
-                .HasMany(e => e.Grades)
-                .WithOne(e => e.Student)
-                .HasForeignKey(e => e.Id)
-                .IsRequired();
+            //modelBuilder.Entity<Student>()
+            //    .HasMany(e => e.Grades)
+            //    .WithOne(e => e.Student)
+            //    .HasForeignKey(e => e.Id)
+            //    .IsRequired();
         }
     }
 }

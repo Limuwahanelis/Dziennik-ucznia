@@ -80,8 +80,11 @@ namespace DziennikUcznia.Controllers
             if (ModelState.IsValid)
             {
                 Student st = new Student(student);
-                Class? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
-                st.Class = studentClass;
+                if (student.ClassId != null)
+                {
+                    Class? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
+                    st.Class = studentClass;
+                }
                 await _studentsRepository.AddStudent(st);
                 return RedirectToAction(nameof(Index));
             }
@@ -91,10 +94,12 @@ namespace DziennikUcznia.Controllers
         [AuthorizeRole(IdentityRoles.Role.TEACHER)]
         public  IActionResult ShowAddGrade(int? id)
         {
+            ViewBag.StudentId = id;
             return View("AddGrade");
         }
+        [AuthorizeRole(IdentityRoles.Role.TEACHER)]
         [HttpPost]
-        public async Task<IActionResult> AddGrade(int? id, [Bind("Value,Type")] Grade grade)
+        public async Task<IActionResult> AddGrade(int? id, [Bind("Value,Type")] AddGradeModel modelGrade)
         {
             if (id == null)
             {
@@ -108,15 +113,15 @@ namespace DziennikUcznia.Controllers
             {
                 return NotFound();
             }
+            Grade grade = new Grade(modelGrade);
             grade.Student = student;
             grade.Teacher = teacher;
-            ModelState.Remove("Student");
-            ModelState.Remove("Teacher");
             if (ModelState.IsValid)
             {
                 await _gradesRepository.AddGrade(grade);
+                return RedirectToAction(nameof(Index));
             }
-            return View(grade);
+            return View(modelGrade);
         }
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)
