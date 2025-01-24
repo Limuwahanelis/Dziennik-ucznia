@@ -1,4 +1,5 @@
-﻿using DziennikUcznia.Models.View_Models;
+﻿using DziennikUcznia.Identity;
+using DziennikUcznia.Models.View_Models;
 
 namespace DziennikUcznia.Models
 {
@@ -14,6 +15,7 @@ namespace DziennikUcznia.Models
         public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public AppUser UserId { get; set; }=null!;
         public ICollection<Grade> Grades { get; } = new List<Grade>();
         public ICollection<Class> Classes { get; set; } = new List<Class>();
     }

@@ -18,9 +18,10 @@ builder.Services.AddDbContext<SchoolDBContext,SchoolDbContext_SQLServer>();
 
 builder.Services.AddDefaultIdentity<AppUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = true;
+        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;
     }
-).AddEntityFrameworkStores<SchoolDBContext>().AddDefaultUI();
+).AddRoles<IdentityRole>().AddEntityFrameworkStores<SchoolDBContext>().AddDefaultUI();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<SchoolRepository>();
@@ -52,6 +53,34 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
+using (var scope = app.Services.CreateScope())
+{
+    RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roles = Enum.GetNames(typeof(IdentityRoles.Role));
 
+    foreach(string role in roles)
+    {
+        if(!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+        
+    }
+}
+using (var scope = app.Services.CreateScope())
+{
+    UserManager<AppUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    string email = "admin@admin.com";
+    string password = "Password@123";
+    if(await userManager.FindByEmailAsync(email)==null)
+    {
+        AppUser user = new AppUser();
+        user.UserName = email;
+        user.Email=email;
+
+        await userManager.CreateAsync(user,password);
+        await userManager.AddToRoleAsync(user, IdentityRoles.Role.ADMIN.ToString());
+    }
+}
 
 app.Run();

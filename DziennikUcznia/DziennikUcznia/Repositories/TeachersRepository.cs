@@ -1,4 +1,5 @@
 ﻿using DziennikUcznia.Data;
+using DziennikUcznia.Identity;
 using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,9 @@ namespace DziennikUcznia.Repositories
         {
             return await _context.Teachers.ToListAsync();
         }
-
+        public async Task<Teacher> GetTeacherByAppUser(AppUser user)
+        {
+            return await _context.Teachers.Where(t=>t.UserId==user).FirstOrDefaultAsync();
+        }
     }
 }
