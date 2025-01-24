@@ -8,14 +8,18 @@ namespace DziennikUcznia.Data
 {
     public class SchoolDbContext_SQLServer:SchoolDBContext
     {
-        public SchoolDbContext_SQLServer(DbContextOptions<SchoolDbContext_SQLServer> options) : base()
+        public SchoolDbContext_SQLServer(DbContextOptions<SchoolDBContext> options) : base(options)
         {
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-Dziennik_ucznia;Trusted_Connection=True;MultipleActiveResultSets=true");
-            base.OnConfiguring(optionsBuilder);
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-Dziennik_ucznia;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
+                base.OnConfiguring(optionsBuilder);
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

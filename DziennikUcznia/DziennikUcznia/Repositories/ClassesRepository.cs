@@ -30,5 +30,12 @@ namespace DziennikUcznia.Repositories
             }
             return classes;
         }
+        public async Task AddClass(string name)
+        {
+            Class newClass = new Class();
+            newClass.Name = name;
+            await _context.Classes.AddAsync(newClass);
+            _context.SaveChanges();
+        }
     }
 }

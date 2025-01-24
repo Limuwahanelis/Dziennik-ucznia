@@ -8,7 +8,7 @@ namespace DziennikUcznia.Data
     public class SchoolDbContext_MySQL : SchoolDBContext
     {
 
-        public SchoolDbContext_MySQL(DbContextOptions<SchoolDbContext_MySQL> options) : base()
+        public SchoolDbContext_MySQL(DbContextOptions<SchoolDBContext> options) : base(options)
         {
 
         }
