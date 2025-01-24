@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 {
     /// <inheritdoc />
-    public partial class Initial_cration : Migration
+    public partial class Initial_creation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,20 +61,6 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Classes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teachers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teachers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,6 +170,26 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Teachers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserIdId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teachers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Teachers_AspNetUsers_UserIdId",
+                        column: x => x.UserIdId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -232,10 +238,9 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    TeacherId1 = table.Column<int>(type: "int", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<int>(type: "int", nullable: false),
-                    Grade_type = table.Column<int>(type: "int", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: true)
+                    Grade_type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -252,7 +257,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                         principalTable: "Teachers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-        });
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -304,14 +309,14 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Grades_TeacherId1",
-                table: "Grades",
-                column: "TeacherId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Students_ClassId",
                 table: "Students",
                 column: "ClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teachers_UserIdId",
+                table: "Teachers",
+                column: "UserIdId");
         }
 
         /// <inheritdoc />
@@ -342,9 +347,6 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
@@ -352,6 +354,9 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
             migrationBuilder.DropTable(
                 name: "Classes");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

@@ -10,7 +10,9 @@ using DziennikUcznia.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using DziennikUcznia.Repositories;
 using DziennikUcznia.Models.View_Models;
-
+using DziennikUcznia.Identity;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 namespace DziennikUcznia.Controllers
 {
     public class StudentsController : Controller
@@ -19,12 +21,17 @@ namespace DziennikUcznia.Controllers
         StudentsRepository _studentsRepository;
         GradesRepository _gradesRepository; 
         ClassesRepository _classesRepository;
-        public StudentsController(SchoolRepository repository, StudentsRepository studentsRepository, GradesRepository gradesRepository, ClassesRepository classesRepository)
+        TeachersRepository _teachersRepository;
+        UserManager<AppUser> _userManager;
+        public StudentsController(SchoolRepository repository, StudentsRepository studentsRepository, GradesRepository gradesRepository,
+            ClassesRepository classesRepository,UserManager<AppUser> userManager,TeachersRepository teachersRepository)
         {
             _repository = repository;
             _studentsRepository = studentsRepository;
             _gradesRepository = gradesRepository;
             _classesRepository = classesRepository;
+            _userManager = userManager;
+            _teachersRepository = teachersRepository;
         }
         // GET: Students
         public async Task<IActionResult> Index()
@@ -81,6 +88,7 @@ namespace DziennikUcznia.Controllers
             
             return View(student);
         }
+        [AuthorizeRole(IdentityRoles.Role.TEACHER)]
         public  IActionResult ShowAddGrade(int? id)
         {
             return View("AddGrade");
@@ -92,15 +100,18 @@ namespace DziennikUcznia.Controllers
             {
                 return NotFound();
             }
-
             var student =await _studentsRepository.GetStudentById(id.Value);
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            var teacher = await _teachersRepository.GetTeacherByAppUser(user);
             if (student == null)
             {
                 return NotFound();
             }
             grade.Student = student;
+            grade.Teacher = teacher;
             ModelState.Remove("Student");
+            ModelState.Remove("Teacher");
             if (ModelState.IsValid)
             {
                 await _gradesRepository.AddGrade(grade);
