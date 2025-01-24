@@ -1,4 +1,4 @@
-﻿@model DziennikUcznia.Models.Grade
+﻿@model DziennikUcznia.Models.View_Models.AddGradeModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,10 +10,8 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddGrade">
+        <form asp-action="AddGrade" asp-route-id="@ViewBag.StudentId">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Student" />
-            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Value" class="control-label"></label>
                 <br />

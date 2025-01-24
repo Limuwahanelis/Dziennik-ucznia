@@ -8,6 +8,7 @@ namespace DziennikUcznia.Data
 {
     public abstract class SchoolDBContext : IdentityDbContext<AppUser>, IDbContext
     {
+        public SchoolDBContext() : base() { }
         public SchoolDBContext(DbContextOptions<SchoolDBContext> options) : base(options) { }
         public DbSet<Student> Students { get; set; }
         public DbSet<Grade> Grades { get; set; }
