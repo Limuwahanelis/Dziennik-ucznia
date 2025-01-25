@@ -1,10 +1,11 @@
 ﻿using DziennikUcznia.Data;
+using DziennikUcznia.Interfaces.Repositories;
 using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DziennikUcznia.Repositories
 {
-    public class StudentsRepository
+    public class StudentsRepository:IStudentsRepository
     {
         private readonly SchoolDBContext _context;
 

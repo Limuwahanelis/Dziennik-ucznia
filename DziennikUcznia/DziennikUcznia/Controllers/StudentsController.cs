@@ -13,25 +13,30 @@ using DziennikUcznia.Models.View_Models;
 using DziennikUcznia.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using DziennikUcznia.Services;
+using DziennikUcznia.Interfaces.Services;
+using DziennikUcznia.Interfaces.Repositories;
 namespace DziennikUcznia.Controllers
 {
     public class StudentsController : Controller
     {
-        SchoolRepository _repository;
-        StudentsRepository _studentsRepository;
-        GradesRepository _gradesRepository; 
-        ClassesRepository _classesRepository;
-        TeachersRepository _teachersRepository;
-        UserManager<AppUser> _userManager;
-        public StudentsController(SchoolRepository repository, StudentsRepository studentsRepository, GradesRepository gradesRepository,
-            ClassesRepository classesRepository,UserManager<AppUser> userManager,TeachersRepository teachersRepository)
+        IAddGradesService _addGradesService;
+        //SchoolRepository _repository;
+        IStudentsRepository _studentsRepository;
+        //GradesRepository _gradesRepository; 
+        IClassesRepository _classesRepository;
+        //TeachersRepository _teachersRepository;
+        //UserManager<AppUser> _userManager;
+        public StudentsController(IStudentsRepository studentsRepository,
+            IClassesRepository classesRepository,IAddGradesService gradesService)
         {
-            _repository = repository;
+            //_repository = repository;
             _studentsRepository = studentsRepository;
-            _gradesRepository = gradesRepository;
+            //_gradesRepository = gradesRepository;
             _classesRepository = classesRepository;
-            _userManager = userManager;
-            _teachersRepository = teachersRepository;
+            //_userManager = userManager;
+           // _teachersRepository = teachersRepository;
+            _addGradesService= gradesService;
         }
         // GET: Students
         public async Task<IActionResult> Index()
@@ -105,23 +110,30 @@ namespace DziennikUcznia.Controllers
             {
                 return NotFound();
             }
-            var student =await _studentsRepository.GetStudentById(id.Value);
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            AppUser user = await _userManager.FindByIdAsync(userId);
-            var teacher = await _teachersRepository.GetTeacherByAppUser(user);
-            if (student == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View(modelGrade);
             }
-            Grade grade = new Grade(modelGrade);
-            grade.Student = student;
-            grade.Teacher = teacher;
-            if (ModelState.IsValid)
+            var teacherUserAppid = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool success= await _addGradesService.AddGrade(id.Value, modelGrade, teacherUserAppid);
+            if(success)
             {
-                await _gradesRepository.AddGrade(grade);
                 return RedirectToAction(nameof(Index));
             }
-            return View(modelGrade);
+            else return View(modelGrade);
+            //if (student == null)
+            //{
+            //    return NotFound();
+            //}
+            //Grade grade = new Grade(modelGrade);
+            //grade.Student = student;
+            //grade.Teacher = teacher;
+            //if (ModelState.IsValid)
+            //{
+            //    await _gradesRepository.AddGrade(grade);
+                
+            //}
+            //return View(modelGrade);
         }
         // GET: Students/Edit/5
         public async Task<IActionResult> Edit(int? id)

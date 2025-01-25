@@ -1,11 +1,12 @@
 ﻿using DziennikUcznia.Data;
 using DziennikUcznia.Interfaces;
+using DziennikUcznia.Interfaces.Repositories;
 using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DziennikUcznia.Repositories
 {
-    public class ClassesRepository
+    public class ClassesRepository: IClassesRepository
     {
         private SchoolDBContext _context;
         public ClassesRepository(SchoolDBContext context)
