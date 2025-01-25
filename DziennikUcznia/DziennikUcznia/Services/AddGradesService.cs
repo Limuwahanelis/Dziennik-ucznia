@@ -13,12 +13,12 @@ namespace DziennikUcznia.Services
 {
     public class AddGradesService: IAddGradesService
     {
-        private StudentsRepository _studentsRepository;
+        private IStudentsRepository _studentsRepository;
         private UserManager<AppUser> _userManager;
-        private TeachersRepository _teachersRepository;
-        private GradesRepository _gradesRepository;
-        public AddGradesService( StudentsRepository studentsRepository, GradesRepository gradesRepository,
-             UserManager<AppUser> userManager, TeachersRepository teachersRepository)
+        private ITeachersRepository _teachersRepository;
+        private IGradesRepository _gradesRepository;
+        public AddGradesService( IStudentsRepository studentsRepository, IGradesRepository gradesRepository,
+             UserManager<AppUser> userManager, ITeachersRepository teachersRepository)
         {
             _studentsRepository = studentsRepository;
             _gradesRepository = gradesRepository;
