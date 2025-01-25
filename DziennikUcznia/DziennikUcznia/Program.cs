@@ -1,5 +1,7 @@
 using DziennikUcznia.Data;
 using DziennikUcznia.Identity;
+using DziennikUcznia.Interfaces.Repositories;
+using DziennikUcznia.Interfaces.Services;
 using DziennikUcznia.Repositories;
 using DziennikUcznia.Services;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,7 @@ var connectionString = builder.Configuration.GetConnectionString("SchoolDbContex
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<TestService>();
+builder.Services.AddTransient<IAddGradesService,AddGradesService>();
 builder.Services.AddDbContext<SchoolDBContext,SchoolDbContext_SQLServer>();
 
 //builder.Services.AddDbContext<SchoolDBContext, SchoolDbContext_MySQL>();
@@ -25,10 +28,10 @@ builder.Services.AddDefaultIdentity<AppUser>(options =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<SchoolRepository>();
-builder.Services.AddScoped<TeachersRepository>();
-builder.Services.AddScoped<StudentsRepository>();
-builder.Services.AddScoped<GradesRepository>();
-builder.Services.AddScoped<ClassesRepository>();
+builder.Services.AddScoped<ITeachersRepository,TeachersRepository>();
+builder.Services.AddScoped<IStudentsRepository,StudentsRepository>();
+builder.Services.AddScoped<IGradesRepository,GradesRepository>();
+builder.Services.AddScoped<IClassesRepository,ClassesRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
