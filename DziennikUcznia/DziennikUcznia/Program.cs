@@ -1,5 +1,6 @@
 using DziennikUcznia.Data;
 using DziennikUcznia.Identity;
+using DziennikUcznia.Initialization;
 using DziennikUcznia.Interfaces.Repositories;
 using DziennikUcznia.Interfaces.Services;
 using DziennikUcznia.Repositories;
@@ -12,7 +13,6 @@ var connectionString = builder.Configuration.GetConnectionString("SchoolDbContex
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<TestService>();
 builder.Services.AddTransient<IAddGradesService,AddGradesService>();
 builder.Services.AddDbContext<SchoolDBContext,SchoolDbContext_SQLServer>();
 
@@ -27,7 +27,6 @@ builder.Services.AddDefaultIdentity<AppUser>(options =>
 ).AddRoles<IdentityRole>().AddEntityFrameworkStores<SchoolDBContext>().AddDefaultUI();
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<SchoolRepository>();
 builder.Services.AddScoped<ITeachersRepository,TeachersRepository>();
 builder.Services.AddScoped<IStudentsRepository,StudentsRepository>();
 builder.Services.AddScoped<IGradesRepository,GradesRepository>();
@@ -70,20 +69,12 @@ using (var scope = app.Services.CreateScope())
         
     }
 }
-using (var scope = app.Services.CreateScope())
+using (IServiceScope scope = app.Services.CreateScope())
 {
     UserManager<AppUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-    string email = "admin@admin.com";
-    string password = "Password@123";
-    if(await userManager.FindByEmailAsync(email)==null)
-    {
-        AppUser user = new AppUser();
-        user.UserName = email;
-        user.Email=email;
+    SchoolDBContext context = scope.ServiceProvider.GetRequiredService<SchoolDBContext>();
 
-        await userManager.CreateAsync(user,password);
-        await userManager.AddToRoleAsync(user, IdentityRoles.Role.ADMIN.ToString());
-    }
+    await InitializeDatabaseData.Initialize(userManager,context);
 }
 
 app.Run();

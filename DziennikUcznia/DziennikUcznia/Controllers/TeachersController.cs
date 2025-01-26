@@ -1,4 +1,5 @@
-﻿using DziennikUcznia.Models;
+﻿using DziennikUcznia.Interfaces.Repositories;
+using DziennikUcznia.Models;
 using DziennikUcznia.Models.View_Models;
 using DziennikUcznia.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,10 @@ namespace DziennikUcznia.Controllers
 {
     public class TeachersController : Controller
     {
-        private readonly SchoolRepository _schoolRepository;
-        private TeachersRepository _teachersRepository;
-        private ClassesRepository _classesRepository;
-        public TeachersController(SchoolRepository schoolRepository, TeachersRepository teachersRepository, ClassesRepository classesRepository)
+        private ITeachersRepository _teachersRepository;
+        private IClassesRepository _classesRepository;
+        public TeachersController(ITeachersRepository teachersRepository, IClassesRepository classesRepository)
         {
-            _schoolRepository = schoolRepository;
             _teachersRepository = teachersRepository;
             _classesRepository = classesRepository;
         }

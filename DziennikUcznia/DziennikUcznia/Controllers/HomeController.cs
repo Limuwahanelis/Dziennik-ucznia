@@ -12,7 +12,7 @@ namespace DziennikUcznia.Controllers
         
 
 
-        public HomeController(ILogger<HomeController> logger,TestService testService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
             
