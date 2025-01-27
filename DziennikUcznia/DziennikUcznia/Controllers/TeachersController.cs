@@ -32,7 +32,7 @@ namespace DziennikUcznia.Controllers
         // GET: TeachersController/Create
         public async Task<ActionResult> Create()
         {
-            List<Class> classes = await _classesRepository.GetClasses();
+            List<SchoolClass> classes = await _classesRepository.GetClasses();
             List<SelectListItem> selectList = new List<SelectListItem>();
             for (int i = 0; i < classes.Count; i++)
             {
@@ -53,7 +53,7 @@ namespace DziennikUcznia.Controllers
             {
                 Teacher t = new Teacher(teacher);
 
-                List<Class>? teacherClasses = await _classesRepository.GetClassesByIds(teacher.ClassesId);
+                List<SchoolClass>? teacherClasses = await _classesRepository.GetClassesByIds(teacher.ClassesId);
                 t.Classes = teacherClasses;
                 await _teachersRepository.AddTeacher(t);
                 return RedirectToAction(nameof(Index));

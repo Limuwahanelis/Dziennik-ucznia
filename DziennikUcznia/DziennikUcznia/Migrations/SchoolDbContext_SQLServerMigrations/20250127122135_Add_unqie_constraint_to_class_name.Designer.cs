@@ -4,6 +4,7 @@ using DziennikUcznia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 {
     [DbContext(typeof(SchoolDbContext_SQLServer))]
-    partial class SchoolDbContext_SQLServerModelSnapshot : ModelSnapshot
+    [Migration("20250127122135_Add_unqie_constraint_to_class_name")]
+    partial class Add_unqie_constraint_to_class_name
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

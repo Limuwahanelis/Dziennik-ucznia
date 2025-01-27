@@ -64,7 +64,7 @@ namespace DziennikUcznia.Controllers
         // GET: Students/Create
         public async Task <IActionResult> Create()
         {
-            List<Class> classes = await _classesRepository.GetClasses();
+            List<SchoolClass> classes = await _classesRepository.GetClasses();
             List<SelectListItem> selectList = new List<SelectListItem>();
             for(int i=0;i<classes.Count; i++)
             {
@@ -87,7 +87,7 @@ namespace DziennikUcznia.Controllers
                 Student st = new Student(student);
                 if (student.ClassId != null)
                 {
-                    Class? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
+                    SchoolClass? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
                     st.Class = studentClass;
                 }
                 await _studentsRepository.AddStudent(st);

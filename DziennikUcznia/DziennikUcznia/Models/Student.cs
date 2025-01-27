@@ -15,7 +15,7 @@ namespace DziennikUcznia.Models
         public int Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public Class? Class { get; set; }
+        public SchoolClass? Class { get; set; }
         public ICollection<Grade> Grades { get; } = new List<Grade>();
 
     }

@@ -1,9 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
 
 namespace DziennikUcznia.Models
 {
-    public class Class
+    [Index(nameof(Name), IsUnique = true)]
+    public class SchoolClass
     {
         public int Id { get; set; }
         

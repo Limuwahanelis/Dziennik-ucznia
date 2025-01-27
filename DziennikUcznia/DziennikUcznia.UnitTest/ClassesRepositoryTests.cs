@@ -31,7 +31,7 @@ namespace DziennikUcznia.UnitTest
             {
                 await repository.AddClass(className);
             }
-            List<Class> classes = await repository.GetClasses();
+            List<SchoolClass> classes = await repository.GetClasses();
             Assert.Equal(4, classes.Count);
         }
         [Fact]
@@ -44,7 +44,7 @@ namespace DziennikUcznia.UnitTest
             {
                 await repository.AddClass(className);
             }
-            Class? tclass = await repository.GetClassById(3);
+            SchoolClass? tclass = await repository.GetClassById(3);
             Assert.Equal("1B", tclass.Name);
         }
 

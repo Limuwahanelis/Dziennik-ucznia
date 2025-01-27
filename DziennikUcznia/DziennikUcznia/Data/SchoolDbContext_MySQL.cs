@@ -24,11 +24,6 @@ namespace DziennikUcznia.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Student>()
-                .HasMany(e => e.Grades)
-                .WithOne(e => e.Student)
-                .HasForeignKey(e => e.Id)
-                .IsRequired();
         }
     }
 
