@@ -4,6 +4,7 @@ using DziennikUcznia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 {
     [DbContext(typeof(SchoolDbContext_SQLServer))]
-    partial class SchoolDbContext_SQLServerModelSnapshot : ModelSnapshot
+    [Migration("20250128140743_Create_Subject_model_Add_Grade_Subject_Relation")]
+    partial class Create_Subject_model_Add_Grade_Subject_Relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

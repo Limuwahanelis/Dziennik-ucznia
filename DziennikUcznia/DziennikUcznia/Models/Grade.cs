@@ -23,5 +23,6 @@ namespace DziennikUcznia.Models
         public int Value { get; set; }
         [Column("Grade_type")]
         public GradeType Type { get; set;}
+        public Subject Subject { get; set; } = null!;
     }
 }
