@@ -9,5 +9,7 @@ namespace DziennikUcznia.Interfaces.Repositories
         public Task AddGrade(Grade grade);
 
         public Task<List<Grade>> GetGradesByStudent(Student student);
+
+        public Task<Grade> GetGradeById(int id);
     }
 }
