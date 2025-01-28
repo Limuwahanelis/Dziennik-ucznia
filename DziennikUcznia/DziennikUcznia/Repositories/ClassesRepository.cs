@@ -58,5 +58,10 @@ namespace DziennikUcznia.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<SchoolClass?> GetClassByName(string name)
+        {
+            return await _context.Classes.Where(c => c.Name == name).FirstOrDefaultAsync();
+        }
     }
 }

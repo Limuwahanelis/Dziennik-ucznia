@@ -47,7 +47,30 @@ namespace DziennikUcznia.UnitTest
             SchoolClass? tclass = await repository.GetClassById(3);
             Assert.Equal("1B", tclass.Name);
         }
-
+        [Fact]
+        public async void GetClassByName_ReturnsClass()
+        {
+            List<string> classNames = new List<string>() { "2A", "3C", "1B", "2F" };
+            ClassesRepository repository = new ClassesRepository (context);
+            foreach(string className in classNames)
+            {
+                await repository.AddClass(className);
+            }
+            SchoolClass? tclass = await repository.GetClassByName("2F");
+            Assert.NotNull(tclass);
+        }
+        [Fact]
+        public async void GetClassByName_ReturnsNull()
+        {
+            List<string> classNames = new List<string>() { "2A", "3C", "1B", "2F" };
+            ClassesRepository repository = new ClassesRepository(context);
+            foreach (string className in classNames)
+            {
+                await repository.AddClass(className);
+            }
+            SchoolClass? tclass = await repository.GetClassByName("3A");
+            Assert.Null(tclass);
+        }
 
     }
 

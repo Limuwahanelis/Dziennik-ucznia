@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DziennikUcznia.Data;
 using DziennikUcznia.Models;
 using DziennikUcznia.Interfaces.Repositories;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace DziennikUcznia.Controllers
 {
@@ -58,7 +61,12 @@ namespace DziennikUcznia.Controllers
         {
             if (ModelState.IsValid)
             {
-               // if(_classesRepository.get)
+                if(await _classesRepository.GetClassByName(schoolClass.Name)!=null)
+                {
+                    ModelState.AddModelError("ClassAlreadyExistsError", "Class with this name already exists");
+                    return View(schoolClass);
+                }
+
                 await _classesRepository.AddClass(schoolClass.Name);
                 return RedirectToAction(nameof(Index));
             }
