@@ -1,4 +1,5 @@
-﻿using DziennikUcznia.Models;
+﻿using DziennikUcznia.Identity;
+using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DziennikUcznia.Interfaces.Repositories
@@ -11,6 +12,7 @@ namespace DziennikUcznia.Interfaces.Repositories
         public Task<List<Student>> GetStudents();
         public Task<Student?> GetStudentWithGradesById(int id);
         public Task<Student?> GetStudentById(int id);
+        public Task<Student?> GetStudentByAppUser(AppUser appUser);
 
         public bool StudentExists(int id);
     }

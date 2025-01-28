@@ -1,4 +1,5 @@
 ﻿using DziennikUcznia.Data;
+using DziennikUcznia.Identity;
 using DziennikUcznia.Interfaces.Repositories;
 using DziennikUcznia.Models;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,11 @@ namespace DziennikUcznia.Repositories
         public bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.Id == id);
+        }
+
+        public Task<Student?> GetStudentByAppUser(AppUser appUser)
+        {
+            return _context.Students.Where(st=>st.UserId==appUser).FirstOrDefaultAsync();
         }
     }
 }
