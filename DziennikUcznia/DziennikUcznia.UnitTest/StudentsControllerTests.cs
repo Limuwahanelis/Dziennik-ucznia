@@ -23,8 +23,11 @@ namespace DziennikUcznia.UnitTest
             IStudentsRepository studentsRepository = Substitute.For<IStudentsRepository>();
             IClassesRepository classesRepository = Substitute.For<IClassesRepository>();
             ClaimsPrincipal principal = Substitute.For<ClaimsPrincipal>();
-            ControllerContext controllerContext = new ControllerContext();
-            controllerContext.HttpContext = new DefaultHttpContext();
+            IAddStudentService addStudentService = Substitute.For<IAddStudentService>();
+            ControllerContext controllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext()
+            };
             AddGradeModel model = new AddGradeModel() { Value = 3, Type = Models.Grade.GradeType.HOMEWORK };
             Claim claim = new Claim("test", "23");
             controllerContext.HttpContext.User = principal;
@@ -32,7 +35,7 @@ namespace DziennikUcznia.UnitTest
             principal.FindFirst("2").ReturnsForAnyArgs(claim);
             addGradesService.AddGrade(1, model, "23").Returns(true);
 
-            StudentsController studentsController = new StudentsController(studentsRepository, classesRepository, addGradesService)
+            StudentsController studentsController = new StudentsController(studentsRepository, classesRepository, addGradesService, addStudentService)
             {
                 ControllerContext = controllerContext
             };

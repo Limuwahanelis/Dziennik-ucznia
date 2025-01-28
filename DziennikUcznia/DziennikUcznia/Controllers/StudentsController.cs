@@ -21,22 +21,18 @@ namespace DziennikUcznia.Controllers
     public class StudentsController : Controller
     {
         IAddGradesService _addGradesService;
-        //SchoolRepository _repository;
         IStudentsRepository _studentsRepository;
-        //GradesRepository _gradesRepository; 
         IClassesRepository _classesRepository;
-        //TeachersRepository _teachersRepository;
-        UserManager<AppUser> _userManager;
+        IAddStudentService _addStudentService;
         public StudentsController(IStudentsRepository studentsRepository,
-            IClassesRepository classesRepository,IAddGradesService gradesService,UserManager<AppUser> userManager)
+            IClassesRepository classesRepository,IAddGradesService gradesService,
+            IAddStudentService addStudentService
+            )
         {
-            //_repository = repository;
             _studentsRepository = studentsRepository;
-            //_gradesRepository = gradesRepository;
             _classesRepository = classesRepository;
-            _userManager = userManager;
-           // _teachersRepository = teachersRepository;
             _addGradesService= gradesService;
+            _addStudentService= addStudentService;
         }
         // GET: Students
         public async Task<IActionResult> Index()
@@ -86,17 +82,9 @@ namespace DziennikUcznia.Controllers
             if (ModelState.IsValid)
             {
                 string email = $"{student.FirstName}{student.LastName}@gmail.com";
-                string password = "Password@123";
-
-                AppUser user1 = new AppUser();
-                user1.UserName = email;
-                user1.Email = email;
-
-                await _userManager.CreateAsync(user1, password);
-                await _userManager.AddToRoleAsync(user1, IdentityRoles.Role.STUDENT.ToString());
-
+                AppUser user= await _addStudentService.AddSudentAppUser(email);
                 Student st = new Student(student);
-                st.UserId = user1;
+                st.UserId = user;
                 if (student.ClassId != null)
                 {
                     SchoolClass? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
