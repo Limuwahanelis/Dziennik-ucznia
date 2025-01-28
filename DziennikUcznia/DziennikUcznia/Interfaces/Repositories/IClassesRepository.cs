@@ -12,5 +12,6 @@ namespace DziennikUcznia.Interfaces.Repositories
         public Task AddClass(string name);
         public Task DeleteClass(int id);
         public Task ChangeClassName(int id, string newClassName);
+        public Task <SchoolClass?> GetClassByName(string name);
     }
 }
