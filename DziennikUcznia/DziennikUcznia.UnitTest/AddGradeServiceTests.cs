@@ -1,11 +1,6 @@
 ﻿using DziennikUcznia.Identity;
 using DziennikUcznia.Repositories;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DziennikUcznia.Interfaces.Repositories;
 using NSubstitute;
 using DziennikUcznia.Models;
