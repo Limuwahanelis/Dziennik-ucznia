@@ -31,6 +31,7 @@ builder.Services.AddScoped<ITeachersRepository,TeachersRepository>();
 builder.Services.AddScoped<IStudentsRepository,StudentsRepository>();
 builder.Services.AddScoped<IGradesRepository,GradesRepository>();
 builder.Services.AddScoped<IClassesRepository,ClassesRepository>();
+builder.Services.AddScoped<ISubjectsRepository,SubjectsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

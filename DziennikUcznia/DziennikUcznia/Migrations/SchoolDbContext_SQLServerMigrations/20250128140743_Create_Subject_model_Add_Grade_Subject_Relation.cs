@@ -10,6 +10,19 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+             name: "Subject",
+             columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {   
+                table.PrimaryKey("PK_Subject", x => x.Id);
+                });
+
             migrationBuilder.AddColumn<int>(
                 name: "SubjectId",
                 table: "Grades",
@@ -17,18 +30,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.CreateTable(
-                name: "Subject",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Subject", x => x.Id);
-                });
+
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grades_SubjectId",

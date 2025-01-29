@@ -119,7 +119,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.SchoolClass", b =>
@@ -139,7 +139,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Student", b =>
@@ -168,7 +168,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("UserIdId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Subject", b =>
@@ -188,7 +188,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subject", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Teacher", b =>
@@ -212,7 +212,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("UserIdId");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -360,7 +360,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("SchoolClassTeacher");
+                    b.ToTable("SchoolClassTeacher", (string)null);
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Grade", b =>

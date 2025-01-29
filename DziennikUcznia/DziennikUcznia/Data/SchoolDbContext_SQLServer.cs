@@ -35,5 +35,6 @@ namespace DziennikUcznia.Data
             //    .HasForeignKey(e => e.Id)
             //    .IsRequired();
         }
+        public DbSet<DziennikUcznia.Models.Subject> Subject { get; set; } = default!;
     }
 }

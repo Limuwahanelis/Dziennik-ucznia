@@ -7,7 +7,7 @@ namespace DziennikUcznia.Models
     {
         public Subject() { }
         public int Id { get; set; }
-        public string Name { get; set; } = "No_Name";
+        public string Name { get; set; } = null!;
     }
 }
 

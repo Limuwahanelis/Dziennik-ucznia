@@ -42,6 +42,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="StudentGrades" asp-action="Index">Grades</a>
                             </li>
                         }
+                        @if (User.IsInRole(IdentityRoles.Role.ADMIN.ToString()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
