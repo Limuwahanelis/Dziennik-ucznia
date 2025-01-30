@@ -24,11 +24,13 @@ namespace DziennikUcznia.Controllers
         IStudentsRepository _studentsRepository;
         IClassesRepository _classesRepository;
         IAddStudentService _addStudentService;
+        ISubjectsRepository _subjectsRepository;
         public StudentsController(IStudentsRepository studentsRepository,
             IClassesRepository classesRepository,IAddGradesService gradesService,
-            IAddStudentService addStudentService
+            IAddStudentService addStudentService,ISubjectsRepository subjectsRepository
             )
         {
+            _subjectsRepository = subjectsRepository;
             _studentsRepository = studentsRepository;
             _classesRepository = classesRepository;
             _addGradesService= gradesService;
@@ -97,14 +99,21 @@ namespace DziennikUcznia.Controllers
             return View(student);
         }
         [AuthorizeRole(IdentityRoles.Role.TEACHER)]
-        public  IActionResult ShowAddGrade(int? id)
+        public  async Task< IActionResult> ShowAddGrade(int? id)
         {
             ViewBag.StudentId = id;
+            List<SelectListItem> items = new List<SelectListItem>();
+            List<Subject> subjects = await _subjectsRepository.GetSubjects();
+            foreach(Subject subject in subjects)
+            {
+                items.Add(new SelectListItem(subject.Name,subject.Id.ToString()));
+            }
+            ViewBag.Subjects = items;
             return View("AddGrade");
         }
         [AuthorizeRole(IdentityRoles.Role.TEACHER)]
         [HttpPost]
-        public async Task<IActionResult> AddGrade(int? id, [Bind("Value,Type")] AddGradeModel modelGrade)
+        public async Task<IActionResult> AddGrade(int? id, [Bind("Value,Type,SubjectId")] AddGradeModel modelGrade)
         {
             if (id == null)
             {
@@ -114,8 +123,9 @@ namespace DziennikUcznia.Controllers
             {
                 return View(modelGrade);
             }
+            Subject subject = await _subjectsRepository.GetSubjectById(modelGrade.SubjectId);
             var teacherUserAppid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            bool success= await _addGradesService.AddGrade(id.Value, modelGrade, teacherUserAppid);
+            bool success= await _addGradesService.AddGrade(id.Value, modelGrade, teacherUserAppid,subject);
             if(success)
             {
                 return RedirectToAction(nameof(Index));

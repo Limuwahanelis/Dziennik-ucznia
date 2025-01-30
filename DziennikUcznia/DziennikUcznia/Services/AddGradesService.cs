@@ -25,7 +25,7 @@ namespace DziennikUcznia.Services
             _userManager = userManager;
             _teachersRepository = teachersRepository;
         }
-        public async Task<bool> AddGrade(int studentId, AddGradeModel modelGrade, string tacherAppUserId)
+        public async Task<bool> AddGrade(int studentId, AddGradeModel modelGrade, string tacherAppUserId,Subject subject)
         {
 
             var student = await _studentsRepository.GetStudentById(studentId);
@@ -37,6 +37,7 @@ namespace DziennikUcznia.Services
                 return false;
             }
             Grade grade = new Grade(modelGrade);
+            grade.Subject = subject;
             grade.Student = student;
             grade.Teacher = teacher;
             await _gradesRepository.AddGrade(grade);
