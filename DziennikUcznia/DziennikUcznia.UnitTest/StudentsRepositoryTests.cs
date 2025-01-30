@@ -56,9 +56,11 @@ namespace DziennikUcznia.UnitTest
         [Fact]
         public async void GetStudentWithGradesById_CheckForStudnetWithId2_ReturnGrade3AndStudentADAM()
         {
-            List<Grade> grades = new List<Grade>() { new Grade() {Value=3,Type=Grade.GradeType.HOMEWORK },
-            new Grade(){ Value=1,Type=Grade.GradeType.ACTIVITY},
-            new Grade(){Value=2,Type=Grade.GradeType.EGZAM } };
+            Subject subject = new Subject();
+            subject.Name = "English";
+            List<Grade> grades = new List<Grade>() { new Grade() {Value=3,Type=Grade.GradeType.HOMEWORK,Subject=subject },
+            new Grade(){ Value=1,Type=Grade.GradeType.ACTIVITY,Subject=subject},
+            new Grade(){Value=2,Type=Grade.GradeType.EGZAM,Subject=subject } };
             Student student1 = new Student() { FirstName = "ADAM", LastName = "Nowak;" };
             Student student2 = new Student() { FirstName = "Darek", LastName = "Wilk" };
             Student student3 = new Student() { FirstName = "Tomek", LastName = "Dud;" };
@@ -66,6 +68,7 @@ namespace DziennikUcznia.UnitTest
             grades[0].Student = student1;
             grades[1].Student = student2;
             grades[2].Student = student3;
+            _context.Subject.Add(subject);
             _context.Students.Add(student2);
             _context.Students.Add(student1);
             _context.Students.Add(student3);
