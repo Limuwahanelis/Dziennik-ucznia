@@ -11,6 +11,8 @@ using DziennikUcznia.Identity;
 using DziennikUcznia.Interfaces.Repositories;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using DziennikUcznia.Models.View_Models;
+using DziennikUcznia.Services;
 
 namespace DziennikUcznia.Controllers
 {
@@ -32,11 +34,19 @@ namespace DziennikUcznia.Controllers
         // GET: StudentGrades
         public async Task<IActionResult> Index()
         {
-            string studentAppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            AppUser user = await _userManager.FindByIdAsync(studentAppUserId);
-            Student student= await _studentsRepository.GetStudentByAppUser(user);
-            List<Grade> grades = await _gradesRepository.GetGradesByStudent(student);
-            return View(grades);
+            string? studentAppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            AppUser? user = await _userManager.FindByIdAsync(studentAppUserId);
+            Student? student= await _studentsRepository.GetStudentByAppUser(user);
+            List<IGrouping<Subject, Grade>> dd = await _gradesRepository.GetStudentGradesGroupedBySubject(student);
+            List<List<Grade>> allGrades = new List<List<Grade>>();
+            List<Subject> subjects=new List<Subject>();
+            foreach(IGrouping<Subject, Grade> grouping in dd)
+            {
+                allGrades.Add(grouping.ToList());
+                subjects.Add(grouping.Key);
+            }
+            ViewBag.Subjects=subjects;
+            return View(allGrades);
         }
 
         //// GET: StudentGrades/Details/5

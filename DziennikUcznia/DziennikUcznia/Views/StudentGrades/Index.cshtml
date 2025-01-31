@@ -1,37 +1,54 @@
-﻿@model IEnumerable<DziennikUcznia.Models.Grade>
+﻿@model List<List<DziennikUcznia.Models.Grade>>
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-<table class="table">
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<table>
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Value)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th></th>
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            </td>
-        </tr>
-}
+        @for(int i=0;i<Model.Count;i++)
+        {
+            <tr>
+                <th>
+                @Html.DisplayName(((List<Subject>)ViewBag.Subjects)[i].Name)
+                    </th>
+            </tr>
+            <tr>
+                <td>
+            @foreach(var grade in Model[i])
+            {
+                 @Html.DisplayFor(model=>grade.Value) 
+                <text>,</text>
+            }
+                </td>
+            </tr>
+        }
     </tbody>
+
 </table>

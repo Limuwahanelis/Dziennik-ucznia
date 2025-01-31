@@ -28,5 +28,9 @@ namespace DziennikUcznia.Repositories
         {
             return await _context.Grades.Where(g => g.Student == student).ToListAsync();
         }
+        public async Task<List<IGrouping<Subject,Grade>>> GetStudentGradesGroupedBySubject(Student student)
+        {
+            return await _context.Grades.GroupBy(g => g.Subject).ToListAsync();
+        }
     }
 }
