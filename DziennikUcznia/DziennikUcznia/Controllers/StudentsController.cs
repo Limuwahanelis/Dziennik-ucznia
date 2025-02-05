@@ -21,22 +21,20 @@ namespace DziennikUcznia.Controllers
     public class StudentsController : Controller
     {
         IAddGradesService _addGradesService;
-        //SchoolRepository _repository;
         IStudentsRepository _studentsRepository;
-        //GradesRepository _gradesRepository; 
         IClassesRepository _classesRepository;
-        //TeachersRepository _teachersRepository;
-        UserManager<AppUser> _userManager;
+        IAddStudentService _addStudentService;
+        ISubjectsRepository _subjectsRepository;
         public StudentsController(IStudentsRepository studentsRepository,
-            IClassesRepository classesRepository,IAddGradesService gradesService,UserManager<AppUser> userManager)
+            IClassesRepository classesRepository,IAddGradesService gradesService,
+            IAddStudentService addStudentService,ISubjectsRepository subjectsRepository
+            )
         {
-            //_repository = repository;
+            _subjectsRepository = subjectsRepository;
             _studentsRepository = studentsRepository;
-            //_gradesRepository = gradesRepository;
             _classesRepository = classesRepository;
-            _userManager = userManager;
-           // _teachersRepository = teachersRepository;
             _addGradesService= gradesService;
+            _addStudentService= addStudentService;
         }
         // GET: Students
         public async Task<IActionResult> Index()
@@ -86,17 +84,9 @@ namespace DziennikUcznia.Controllers
             if (ModelState.IsValid)
             {
                 string email = $"{student.FirstName}{student.LastName}@gmail.com";
-                string password = "Password@123";
-
-                AppUser user1 = new AppUser();
-                user1.UserName = email;
-                user1.Email = email;
-
-                await _userManager.CreateAsync(user1, password);
-                await _userManager.AddToRoleAsync(user1, IdentityRoles.Role.STUDENT.ToString());
-
+                AppUser user= await _addStudentService.AddSudentAppUser(email);
                 Student st = new Student(student);
-                st.UserId = user1;
+                st.UserId = user;
                 if (student.ClassId != null)
                 {
                     SchoolClass? studentClass = await _classesRepository.GetClassById(student.ClassId.Value);
@@ -109,14 +99,21 @@ namespace DziennikUcznia.Controllers
             return View(student);
         }
         [AuthorizeRole(IdentityRoles.Role.TEACHER)]
-        public  IActionResult ShowAddGrade(int? id)
+        public  async Task< IActionResult> ShowAddGrade(int? id)
         {
             ViewBag.StudentId = id;
+            List<SelectListItem> items = new List<SelectListItem>();
+            List<Subject> subjects = await _subjectsRepository.GetSubjects();
+            foreach(Subject subject in subjects)
+            {
+                items.Add(new SelectListItem(subject.Name,subject.Id.ToString()));
+            }
+            ViewBag.Subjects = items;
             return View("AddGrade");
         }
         [AuthorizeRole(IdentityRoles.Role.TEACHER)]
         [HttpPost]
-        public async Task<IActionResult> AddGrade(int? id, [Bind("Value,Type")] AddGradeModel modelGrade)
+        public async Task<IActionResult> AddGrade(int? id, [Bind("Value,Type,SubjectId")] AddGradeModel modelGrade)
         {
             if (id == null)
             {
@@ -126,8 +123,9 @@ namespace DziennikUcznia.Controllers
             {
                 return View(modelGrade);
             }
+            Subject subject = await _subjectsRepository.GetSubjectById(modelGrade.SubjectId);
             var teacherUserAppid = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            bool success= await _addGradesService.AddGrade(id.Value, modelGrade, teacherUserAppid);
+            bool success= await _addGradesService.AddGrade(id.Value, modelGrade, teacherUserAppid,subject);
             if(success)
             {
                 return RedirectToAction(nameof(Index));

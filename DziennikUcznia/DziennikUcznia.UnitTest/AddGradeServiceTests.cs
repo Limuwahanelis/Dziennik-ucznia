@@ -45,7 +45,7 @@ namespace DziennikUcznia.UnitTest
             gradesRepository.AddGrade(default).ReturnsForAnyArgs(task);
 
             AddGradesService addGradesService = new AddGradesService(studentsRepository, gradesRepository, userManagerMock.Object, teachersRepository);
-            bool result = await addGradesService.AddGrade(default, gradeModel, default);
+            bool result = await addGradesService.AddGrade(default, gradeModel, default,default);
             Assert.True(result);
         }
 

@@ -27,5 +27,10 @@ namespace DziennikUcznia.Repositories
         {
             return await _context.Teachers.Where(t=>t.UserId==user).FirstOrDefaultAsync();
         }
+
+        //public async Task<Teacher> GetTeacher(Teacher teacher)
+        //{
+        //    //return await _context.Teachers.Where(t=>t==teacher)
+        //}
     }
 }

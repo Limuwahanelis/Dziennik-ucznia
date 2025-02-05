@@ -4,6 +4,7 @@ using DziennikUcznia.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 {
     [DbContext(typeof(SchoolDbContext_SQLServer))]
-    partial class SchoolDbContext_SQLServerModelSnapshot : ModelSnapshot
+    [Migration("20250128140743_Create_Subject_model_Add_Grade_Subject_Relation")]
+    partial class Create_Subject_model_Add_Grade_Subject_Relation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +122,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Grades", (string)null);
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.SchoolClass", b =>
@@ -139,7 +142,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Classes", (string)null);
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Student", b =>
@@ -168,7 +171,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("UserIdId");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Subject", b =>
@@ -188,7 +191,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Subject", (string)null);
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Teacher", b =>
@@ -212,7 +215,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("UserIdId");
 
-                    b.ToTable("Teachers", (string)null);
+                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -360,7 +363,7 @@ namespace DziennikUcznia.Migrations.SchoolDbContext_SQLServerMigrations
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("SchoolClassTeacher", (string)null);
+                    b.ToTable("SchoolClassTeacher");
                 });
 
             modelBuilder.Entity("DziennikUcznia.Models.Grade", b =>

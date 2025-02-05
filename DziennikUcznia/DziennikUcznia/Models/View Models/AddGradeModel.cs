@@ -6,5 +6,7 @@ namespace DziennikUcznia.Models.View_Models
     {
         public int Value { get; set; }
         public GradeType Type { get; set; }
+
+        public int SubjectId { get; set; }
     }
 }

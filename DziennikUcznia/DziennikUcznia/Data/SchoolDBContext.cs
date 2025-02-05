@@ -14,5 +14,7 @@ namespace DziennikUcznia.Data
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<SchoolClass> Classes { get; set; }
+
+        public DbSet<Subject> Subjects { get; set; }
     }
 }

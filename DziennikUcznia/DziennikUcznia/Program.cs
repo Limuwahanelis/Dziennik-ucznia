@@ -8,12 +8,15 @@ using DziennikUcznia.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+// Server=localhost;Database=master;Trusted_Connection=True; for my mssqlserver
+
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("SchoolDbContextConnection") ?? throw new InvalidOperationException("Connection string 'SchoolDbContextConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAddGradesService,AddGradesService>();
+builder.Services.AddTransient<IAddStudentService, AddStudentService>();
 builder.Services.AddDbContext<SchoolDBContext,SchoolDbContext_SQLServer>();
 
 //builder.Services.AddDbContext<SchoolDBContext, SchoolDbContext_MySQL>();
@@ -31,6 +34,7 @@ builder.Services.AddScoped<ITeachersRepository,TeachersRepository>();
 builder.Services.AddScoped<IStudentsRepository,StudentsRepository>();
 builder.Services.AddScoped<IGradesRepository,GradesRepository>();
 builder.Services.AddScoped<IClassesRepository,ClassesRepository>();
+builder.Services.AddScoped<ISubjectsRepository,SubjectsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
