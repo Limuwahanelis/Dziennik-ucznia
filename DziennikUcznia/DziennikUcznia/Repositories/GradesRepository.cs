@@ -23,7 +23,10 @@ namespace DziennikUcznia.Repositories
         {
             return await _context.Grades.FirstOrDefaultAsync(m => m.Id == id);
         }
-
+        public async Task<Grade> GetGradeByIdDetailed(int id)
+        {
+            return await _context.Grades.Include(x=>x.Teacher).FirstOrDefaultAsync(m => m.Id == id);
+        }
         public async Task<List<Grade>> GetGradesByStudent(Student student)
         {
             return await _context.Grades.Where(g => g.Student == student).ToListAsync();

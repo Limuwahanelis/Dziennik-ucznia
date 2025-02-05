@@ -13,5 +13,6 @@ namespace DziennikUcznia.Interfaces.Repositories
         public Task<Grade> GetGradeById(int id);
 
         public Task<List<IGrouping<Subject, Grade>>> GetStudentGradesGroupedBySubject(Student student);
+        public Task<Grade> GetGradeByIdDetailed(int id);
     }
 }

@@ -43,7 +43,8 @@
                 <td>
             @foreach(var grade in Model[i])
             {
-                 @Html.DisplayFor(model=>grade.Value) 
+                        <a asp-action="Details" asp-route-id="@grade.Id">@Html.DisplayFor(model => grade.Value) </a>
+                 
                 <text>,</text>
             }
                 </td>

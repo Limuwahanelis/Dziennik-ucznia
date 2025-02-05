@@ -49,22 +49,22 @@ namespace DziennikUcznia.Controllers
             return View(allGrades);
         }
 
-        //// GET: StudentGrades/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: StudentGrades/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var grade = await _context.Grades
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (grade == null)
-        //    {
-        //        return NotFound();
-        //    }
+            Grade grade = await _gradesRepository.GetGradeByIdDetailed(id.Value);
 
-        //    return View(grade);
-        //}
+            if (grade == null)
+            {
+                return NotFound();
+            }
+
+            return View(grade);
+        }
     }
 }
