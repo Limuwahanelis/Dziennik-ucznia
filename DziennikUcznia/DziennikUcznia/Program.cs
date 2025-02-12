@@ -17,6 +17,7 @@ var connectionString = builder.Configuration.GetConnectionString("SchoolDbContex
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAddGradesService,AddGradesService>();
 builder.Services.AddTransient<IAddStudentService, AddStudentService>();
+
 builder.Services.AddDbContext<SchoolDBContext,SchoolDbContext_SQLServer>();
 
 //builder.Services.AddDbContext<SchoolDBContext, SchoolDbContext_MySQL>();
