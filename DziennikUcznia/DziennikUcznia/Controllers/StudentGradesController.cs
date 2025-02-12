@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using DziennikUcznia.Models.View_Models;
 using DziennikUcznia.Services;
+using DziennikUcznia.Interfaces.Services;
 
 namespace DziennikUcznia.Controllers
 {
@@ -58,13 +59,14 @@ namespace DziennikUcznia.Controllers
             }
 
             Grade grade = await _gradesRepository.GetGradeByIdDetailed(id.Value);
+            DetailedGrade gradeDetail = new DetailedGrade(grade);
 
             if (grade == null)
             {
                 return NotFound();
             }
 
-            return View(grade);
+            return View(gradeDetail);
         }
     }
 }
