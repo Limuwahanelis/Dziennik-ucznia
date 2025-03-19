@@ -63,23 +63,16 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roles = Enum.GetNames(typeof(IdentityRoles.Role));
+    await builder.Services.InitializeRolesAsync(roleManager);
 
-    foreach(string role in roles)
-    {
-        if(!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-        
-    }
 }
 using (IServiceScope scope = app.Services.CreateScope())
 {
     UserManager<AppUser> userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
     SchoolDBContext context = scope.ServiceProvider.GetRequiredService<SchoolDBContext>();
 
-    await InitializeDatabaseData.Initialize(userManager,context);
+   // await InitializeDatabaseData.Initialize(userManager,context);
+   await builder.Services.InitializeDatabaseAsync(userManager, context);
 }
 
 app.Run();

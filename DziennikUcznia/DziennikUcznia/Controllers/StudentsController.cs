@@ -18,6 +18,7 @@ using DziennikUcznia.Interfaces.Services;
 using DziennikUcznia.Interfaces.Repositories;
 namespace DziennikUcznia.Controllers
 {
+    [AuthorizeRole( IdentityRoles.Role.TEACHER, IdentityRoles.Role.ADMIN)]
     public class StudentsController : Controller
     {
         IAddGradesService _addGradesService;

@@ -1,13 +1,17 @@
-﻿using DziennikUcznia.Interfaces.Repositories;
+﻿using DziennikUcznia.Data;
+using DziennikUcznia.Identity;
+using DziennikUcznia.Interfaces.Repositories;
 using DziennikUcznia.Models;
 using DziennikUcznia.Models.View_Models;
 using DziennikUcznia.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol.Core.Types;
 
 namespace DziennikUcznia.Controllers
 {
+    [AuthorizeRole(IdentityRoles.Role.ADMIN)]
     public class TeachersController : Controller
     {
         private ITeachersRepository _teachersRepository;

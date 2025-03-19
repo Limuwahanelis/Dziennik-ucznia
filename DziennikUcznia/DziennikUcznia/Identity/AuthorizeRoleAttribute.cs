@@ -1,5 +1,5 @@
 ﻿using DziennikUcznia.Data;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
 namespace DziennikUcznia.Identity
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
